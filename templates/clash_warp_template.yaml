@@ -56,13 +56,19 @@ proxies:
     udp: true
     reserved: "LRTA"
     dns: [1.1.1.1]
-    dialer-proxy: "WireGuard"
+    dialer-proxy: "Cloudflare-WARP"
 
 proxy-groups:
   - name: Manually Selection
     type: select
     proxies:
       - Cloudflare
+  
+  - name: Cloudflare-WARP
+    type: select
+    proxies:
+      - Manually Selection
+      - Automatic Selection
 
   - name: Automatic Selection
     type: url-test
