@@ -45,8 +45,8 @@ geox-url:
 proxies:
 - name: Cloudflare
   type: wireguard
-  server: 127.0.0.1
-  port: 7777
+  server: 162.159.195.63
+  port: 1010
   ip: 172.16.0.2
   ipv6: 2606:4700:110:8275:711f:119c:e9d5:bc78
   public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
