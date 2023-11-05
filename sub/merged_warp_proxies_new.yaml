@@ -43,7 +43,7 @@ geox-url:
   geosite: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
   mmdb: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb
 proxies:
-- name: WARP
+- name: Cloudflare
   type: wireguard
   server: 127.0.0.1
   port: 7777
@@ -53,6 +53,9 @@ proxies:
   private-key: IKP6RRW9v7GVNM2DN8+He7CiENH/ljIKnV9BUE/DSHE=
   udp: true
   reserved: LRTA
+  dns:
+  - 1.1.1.1
+  dialer-proxy: WireGuard
 - name: tuic_01
   server: 109.104.152.219
   port: 19008
@@ -198,19 +201,18 @@ proxies:
   protocol: udp
   up: 50 Mbps
   down: 100 Mbps
-- name: tuic_121
+- name: hysteria_121
+  type: hysteria
   server: www2.dtku49.xyz
-  port: 19881
-  type: tuic
-  uuid: 45e2b23a-1a49-49c4-9422-8d786887ef3d
-  password: 51UMpwpdw0Kw
-  sni: bing.com
+  port: 37363
+  sni: www.microsoft.com
+  skip-cert-verify: true
   alpn:
   - h3
-  request-timeout: 8000
-  udp-relay-mode: native
-  skip-cert-verify: true
-  congestion-controller: bbr
+  protocol: udp
+  auth_str: n8Paxd1Uad5wisPoT6i43lrerK1O5iQRfHnbI3RRsIrbdkyLZP
+  up: 4
+  down: 20
 - name: hysteria_131
   type: hysteria
   server: www.dtku50.xyz
@@ -335,18 +337,11 @@ proxies:
   fast-open: true
   sni: www.bing.com
   skip-cert-verify: true
-tunnels:
-- network:
-  - tcp
-  - udp
-  address: 127.0.0.1:7777
-  target: 162.159.195.63:1010
-  proxy: Manually Selection
 proxy-groups:
 - name: Manually Selection
   type: select
   proxies:
-  - WARP
+  - Cloudflare
   - tuic_01
   - hysteria2_02
   - tuic_11
@@ -360,7 +355,7 @@ proxy-groups:
   - hysteria_91
   - hysteria_101
   - hysteria_111
-  - tuic_121
+  - hysteria_121
   - hysteria_131
   - hysteria_141
   - hysteria_151
@@ -378,7 +373,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - WARP
+  - Cloudflare
   - tuic_01
   - hysteria2_02
   - tuic_11
@@ -392,7 +387,7 @@ proxy-groups:
   - hysteria_91
   - hysteria_101
   - hysteria_111
-  - tuic_121
+  - hysteria_121
   - hysteria_131
   - hysteria_141
   - hysteria_151
