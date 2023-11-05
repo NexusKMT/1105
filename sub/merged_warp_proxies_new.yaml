@@ -55,7 +55,7 @@ proxies:
   reserved: LRTA
   dns:
   - 1.1.1.1
-  dialer-proxy: WireGuard
+  dialer-proxy: Cloudflare-WARP
 - name: tuic_01
   server: 109.104.152.219
   port: 19008
@@ -367,6 +367,11 @@ proxy-groups:
   - hysteria2_1
   - hysteria2_2
   - hysteria2_3
+- name: Cloudflare-WARP
+  type: select
+  proxies:
+  - Manually Selection
+  - Automatic Selection
 - name: Automatic Selection
   type: url-test
   url: https://www.gstatic.com/generate_204
