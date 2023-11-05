@@ -59,16 +59,23 @@ proxies:
     dialer-proxy: "Cloudflare-WARP"
 
 proxy-groups:
-  - name: Manually Selection
+  - name: Node Selection
     type: select
     proxies:
       - Cloudflare
+      - Manually Selection
+      - Automatic Selection
   
   - name: Cloudflare-WARP
     type: select
     proxies:
       - Manually Selection
       - Automatic Selection
+
+  - name: Manually Selection
+    type: select
+    proxies:
+      - Cloudflare
 
   - name: Automatic Selection
     type: url-test
@@ -134,8 +141,8 @@ rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
   - RULE-SET,reject,REJECT
-  - RULE-SET,proxy,Manually Selection
+  - RULE-SET,proxy,Node Selection
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
-  - MATCH,Manually Selection
+  - MATCH,Node Selection
 
