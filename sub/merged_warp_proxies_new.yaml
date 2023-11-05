@@ -1,56 +1,69 @@
-port: 7890
+mixed-port: 5704
 allow-lan: true
-mode: rule
-log-level: info
-unified-delay: true
-global-client-fingerprint: chrome
+ipv6: true
+mode: Rule
+log-level: debug
+find-process-mode: strict
+external-controller: :7023
+global-client-fingerprint: random
+tun:
+  enable: true
+  mtu: 9000
+  stack: system
+  dns-hijack:
+  - any:53
+  auto-detect-interface: true
+sniffer:
+  enable: true
+  sniff:
+    TLS:
+      ports:
+      - 443
+      - 8443
+    HTTP:
+      ports:
+      - 80
+      - 8080-8880
+      override-destination: false
 dns:
   enable: true
-  listen: :53
-  ipv6: true
+  listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - '*.lan'
   default-nameserver:
-  - 223.5.5.5
   - 8.8.8.8
   nameserver:
-  - https://dns.alidns.com/dns-query
-  - https://doh.pub/dns-query
-  fallback:
-  - https://1.0.0.1/dns-query
-  - tls://dns.google
-  fallback-filter:
-    geoip: true
-    geoip-code: CN
-    ipcidr:
-    - 240.0.0.0/4
+  - tls://8.8.8.8:853
+  - tls://1.0.0.1:853
+  - tls://223.5.5.5:853
+geox-url:
+  geoip: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+  geosite: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+  mmdb: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb
 proxies:
-- name: TW
-  type: trojan
-  server: a
-  port: 1
-  password: 72ac875a-f5b9-461e-a7a4-942b468b0d83
-  udp: true
-  sni: gw.alicdn.com
-  skip-cert-verify: true
-- name: WARP
+- name: LOOP
   type: wireguard
-  server: engage.cloudflareclient.com
-  port: 2408
+  server: 162.159.195.63
+  port: 1010
   ip: 172.16.0.2
-  ipv6: 2606:4700:110:87c0:ba32:773a:8d44:e353
-  private-key: +HpHpY/KjSv5hJdGrN2ok1A6CKhCmTQv5Unwyul9S1g=
+  ipv6: 2606:4700:110:8275:711f:119c:e9d5:bc78
   public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
+  private-key: IKP6RRW9v7GVNM2DN8+He7CiENH/ljIKnV9BUE/DSHE=
   udp: true
-  reserved:
-  - 0
-  - 0
-  - 0
-  remote-dns-resolve: true
-  dns:
-  - 1.1.1.1
-  - 8.8.8.8
-  dialer-proxy: WARP前置节点
+  reserved: LRTA
+- name: WireGuard-CF
+  type: wireguard
+  server: 162.159.195.63
+  port: 1010
+  ip: 172.16.0.2
+  ipv6: 2606:4700:110:8275:711f:119c:e9d5:bc78
+  public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
+  private-key: IKP6RRW9v7GVNM2DN8+He7CiENH/ljIKnV9BUE/DSHE=
+  udp: true
+  reserved: LRTA
+  dialer-proxy: Cloudflare-WARP
 - name: tuic_01
   server: 109.104.152.219
   port: 19008
@@ -333,43 +346,48 @@ proxies:
   fast-open: true
   sni: www.bing.com
   skip-cert-verify: true
-- name: reality_3
-  type: vless
-  server: 109.104.152.156
-  port: 16717
-  uuid: a2971a3e-d013-47b2-93c8-2ff2a4bcff2a
-  network: tcp
-  tls: true
-  udp: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  servername: aod.itunes.apple.com
-  reality-opts:
-    public-key: ydGuypY0EPIAxMpi8L-yhWBtjyavZbtwo9JJk2K5G0Y
-    short-id: 6ba85179e30d4fc2
 proxy-groups:
-- name: 节点选择
+- name: Cloudflare-WARP
   type: select
   proxies:
-  - TW
-  - WARP
-  - 自动选择
-  - 负载均衡
-  - 手动选择
-  - DIRECT
-- name: WARP前置节点
+  - Manually Selection
+  - Automatic Selection
+- name: Manually Selection
   type: select
   proxies:
-  - 自动选择
-  - 负载均衡
-  - 手动选择
-- name: 自动选择
+  - LOOP
+  - tuic_01
+  - hysteria2_02
+  - tuic_11
+  - tuic_21
+  - tuic_31
+  - hysteria_41
+  - tuic_51
+  - hysteria_61
+  - hysteria_71
+  - hysteria_81
+  - hysteria_91
+  - hysteria_101
+  - hysteria_111
+  - tuic_121
+  - hysteria_131
+  - hysteria_141
+  - hysteria_151
+  - hysteria_0
+  - hysteria_1
+  - hysteria_2
+  - hysteria_3
+  - hysteria2_0
+  - hysteria2_1
+  - hysteria2_2
+  - hysteria2_3
+- name: Automatic Selection
   type: url-test
-  url: http://www.gstatic.com/generate_204
+  url: https://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - TW
+  - LOOP
   - tuic_01
   - hysteria2_02
   - tuic_11
@@ -395,73 +413,56 @@ proxy-groups:
   - hysteria2_1
   - hysteria2_2
   - hysteria2_3
-  - reality_3
-- name: 手动选择
-  type: select
-  proxies:
-  - TW
-  - tuic_01
-  - hysteria2_02
-  - tuic_11
-  - tuic_21
-  - tuic_31
-  - hysteria_41
-  - tuic_51
-  - hysteria_61
-  - hysteria_71
-  - hysteria_81
-  - hysteria_91
-  - hysteria_101
-  - hysteria_111
-  - tuic_121
-  - hysteria_131
-  - hysteria_141
-  - hysteria_151
-  - hysteria_0
-  - hysteria_1
-  - hysteria_2
-  - hysteria_3
-  - hysteria2_0
-  - hysteria2_1
-  - hysteria2_2
-  - hysteria2_3
-  - reality_3
-- name: 负载均衡
-  type: load-balance
-  proxies:
-  - TW
-  - tuic_01
-  - hysteria2_02
-  - tuic_11
-  - tuic_21
-  - tuic_31
-  - hysteria_41
-  - tuic_51
-  - hysteria_61
-  - hysteria_71
-  - hysteria_81
-  - hysteria_91
-  - hysteria_101
-  - hysteria_111
-  - tuic_121
-  - hysteria_131
-  - hysteria_141
-  - hysteria_151
-  - hysteria_0
-  - hysteria_1
-  - hysteria_2
-  - hysteria_3
-  - hysteria2_0
-  - hysteria2_1
-  - hysteria2_2
-  - hysteria2_3
-  - reality_3
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  strategy: round-robin
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt
+    path: ./ruleset/reject.yaml
+    interval: 86400
+  proxy:
+    type: http
+    behavior: domain
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+  direct:
+    type: http
+    behavior: domain
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt
+    path: ./ruleset/direct.yaml
+    interval: 86400
+  private:
+    type: http
+    behavior: domain
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt
+    path: ./ruleset/private.yaml
+    interval: 86400
+  gfw:
+    type: http
+    behavior: domain
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt
+    path: ./ruleset/gfw.yaml
+    interval: 86400
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+  lancidr:
+    type: http
+    behavior: ipcidr
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt
+    path: ./ruleset/lancidr.yaml
+    interval: 86400
 rules:
-- DOMAIN,clash.razord.top,DIRECT
-- DOMAIN,yacd.haishan.me,DIRECT
+- RULE-SET,private,DIRECT
+- RULE-SET,direct,DIRECT
+- RULE-SET,lancidr,DIRECT
+- RULE-SET,cncidr,DIRECT
+- RULE-SET,reject,REJECT
+- RULE-SET,proxy,Cloudflare-WARP
 - GEOIP,LAN,DIRECT
 - GEOIP,CN,DIRECT
-- MATCH,节点选择
+- MATCH,Cloudflare-WARP
