@@ -4,7 +4,7 @@ ipv6: true
 mode: Rule
 log-level: debug
 find-process-mode: strict
-external-controller: :7023
+external-controller: :9090
 global-client-fingerprint: random
 
 tun:
@@ -45,10 +45,10 @@ geox-url:
 
 
 proxies:
-  - name: "LOOP"
+  - name: "WARP"
     type: wireguard
-    server: 162.159.195.63
-    port: 1010
+    server: 127.0.0.1
+    port: 7777
     ip: 172.16.0.2
     ipv6: 2606:4700:110:8275:711f:119c:e9d5:bc78
     public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
@@ -56,29 +56,17 @@ proxies:
     udp: true
     reserved: "LRTA"
 
-  - name: "WireGuard-CF"
-    type: wireguard
-    server: 162.159.195.63
-    port: 1010
-    ip: 172.16.0.2
-    ipv6: 2606:4700:110:8275:711f:119c:e9d5:bc78
-    public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
-    private-key: IKP6RRW9v7GVNM2DN8+He7CiENH/ljIKnV9BUE/DSHE=
-    udp: true
-    reserved: "LRTA"
-    dialer-proxy: "Cloudflare-WARP"
+tunnels:
+	- network: [tcp, udp]
+    address: 127.0.0.1:7777 
+    target: 162.159.195.63:1010
+    proxy: Manually Selection
 
 proxy-groups:
-  - name: Cloudflare-WARP
-    type: select
-    proxies:
-      - Manually Selection
-      - Automatic Selection
-
   - name: Manually Selection
     type: select
     proxies:
-      - LOOP
+      - WARP
 
   - name: Automatic Selection
     type: url-test
@@ -86,7 +74,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - LOOP
+      - WARP
 
 rule-providers:
   reject:
@@ -144,8 +132,8 @@ rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
   - RULE-SET,reject,REJECT
-  - RULE-SET,proxy,Cloudflare-WARP
+  - RULE-SET,proxy,Manually Selection
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
-  - MATCH,Cloudflare-WARP
+  - MATCH,Manually Selection
 
