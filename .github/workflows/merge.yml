@@ -25,14 +25,11 @@ jobs:
 
       - name: Run merge script
         run: python meta_merge.py  # 替换为你的 merge.py 脚本名称
-
-      - name: Run shadowrocket merge script
-        run: python merge.py  # 替换为你的 merge.py 脚本名称
-      - name: Commit Changes
+        
         run: |
           git config core.ignorecase false
-          git config --local user.email "vvv123456789123@gmail.com"
-          git config --local user.name "vvv"
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Action"
           git add .
           git commit -m "Updated at $(date '+%Y-%m-%d %H:%M:%S')"
           git push
