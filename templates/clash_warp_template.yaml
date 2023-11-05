@@ -45,7 +45,7 @@ geox-url:
 
 
 proxies:
-  - name: "WARP"
+  - name: "Cloudflare"
     type: wireguard
     server: 127.0.0.1
     port: 7777
@@ -55,18 +55,14 @@ proxies:
     private-key: IKP6RRW9v7GVNM2DN8+He7CiENH/ljIKnV9BUE/DSHE=
     udp: true
     reserved: "LRTA"
-
-tunnels:
-  - network: [tcp, udp]
-    address: 127.0.0.1:7777 
-    target: 162.159.195.63:1010
-    proxy: Manually Selection
+    dns: [1.1.1.1]
+    dialer-proxy: "WireGuard"
 
 proxy-groups:
   - name: Manually Selection
     type: select
     proxies:
-      - WARP
+      - Cloudflare
 
   - name: Automatic Selection
     type: url-test
@@ -74,7 +70,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - WARP
+      - Cloudflare
 
 rule-providers:
   reject:
