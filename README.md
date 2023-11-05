@@ -1,4 +1,4 @@
-## 订阅链接分享（需要翻墙版-托管自github）
+## 订阅链接分享
 <details>
   <summary>点击展开/折叠</summary>
   https://raw.githubusercontent.com/NexusKMT/1105/main/sub/merged_warp_proxies_new.yaml
