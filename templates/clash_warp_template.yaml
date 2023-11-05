@@ -57,7 +57,7 @@ proxies:
     reserved: "LRTA"
 
 tunnels:
-	- network: [tcp, udp]
+  - network: [tcp, udp]
     address: 127.0.0.1:7777 
     target: 162.159.195.63:1010
     proxy: Manually Selection
