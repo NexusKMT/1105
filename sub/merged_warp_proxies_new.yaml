@@ -80,6 +80,18 @@ proxies:
   skip-cert-verify: true
   up: 100 Mbps
   down: 100 Mbps
+- name: hysteria_03
+  type: hysteria
+  server: 216.146.24.155
+  port: 30002
+  auth-str: gB6NMRpQ7gaE
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  protocol: udp
+  up: 100 Mbps
+  down: 100 Mbps
 - name: tuic_11
   server: tuic1.freeh1.xyz
   port: 40981
@@ -355,6 +367,7 @@ proxy-groups:
   - Cloudflare
   - tuic_01
   - hysteria2_02
+  - hysteria_03
   - tuic_11
   - tuic_21
   - tuic_31
@@ -387,6 +400,7 @@ proxy-groups:
   - Cloudflare
   - tuic_01
   - hysteria2_02
+  - hysteria_03
   - tuic_11
   - tuic_21
   - tuic_31
