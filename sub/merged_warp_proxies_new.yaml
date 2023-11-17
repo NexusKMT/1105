@@ -67,6 +67,17 @@ proxies:
   skip-cert-verify: true
   up: 100 Mbps
   down: 100 Mbps
+- name: hysteria_02
+  type: hysteria
+  server: 167.160.90.251
+  port: 48089
+  auth-str: dongtaiwang.com
+  alpn:
+  - h3
+  protocol: udp
+  up: 11 Mbps
+  down: 55 Mbps
+  skip-cert-verify: true
 - name: tuic_11
   server: tuic1.freeh1.xyz
   port: 40981
@@ -342,6 +353,7 @@ proxy-groups:
   proxies:
   - Cloudflare
   - hysteria2_01
+  - hysteria_02
   - tuic_11
   - tuic_21
   - tuic_31
@@ -373,6 +385,7 @@ proxy-groups:
   proxies:
   - Cloudflare
   - hysteria2_01
+  - hysteria_02
   - tuic_11
   - tuic_21
   - tuic_31
