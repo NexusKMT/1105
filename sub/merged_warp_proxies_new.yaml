@@ -56,18 +56,7 @@ proxies:
   dns:
   - 1.1.1.1
   dialer-proxy: Cloudflare-WARP
-- name: hysteria2_01
-  type: hysteria2
-  server: 109.104.152.219
-  port: 22998
-  password: dongtaiwang.com
-  alpn:
-  - h3
-  sni: bing.com
-  skip-cert-verify: true
-  up: 100 Mbps
-  down: 100 Mbps
-- name: hysteria_02
+- name: hysteria_01
   type: hysteria
   server: 167.160.90.251
   port: 48089
@@ -78,6 +67,17 @@ proxies:
   up: 11 Mbps
   down: 55 Mbps
   skip-cert-verify: true
+- name: hysteria2_02
+  type: hysteria2
+  server: 109.104.152.219
+  port: 22998
+  password: dongtaiwang.com
+  alpn:
+  - h3
+  sni: bing.com
+  skip-cert-verify: true
+  up: 100 Mbps
+  down: 100 Mbps
 - name: tuic_11
   server: tuic1.freeh1.xyz
   port: 40981
@@ -323,7 +323,7 @@ proxies:
 - name: hysteria2_2
   type: hysteria2
   server: www.dtku48.xyz
-  port: 49694
+  port: 12398
   password: dongtaiwang.com
   fast-open: true
   sni: www.bing.com
@@ -352,8 +352,8 @@ proxy-groups:
   type: select
   proxies:
   - Cloudflare
-  - hysteria2_01
-  - hysteria_02
+  - hysteria_01
+  - hysteria2_02
   - tuic_11
   - tuic_21
   - tuic_31
@@ -384,8 +384,8 @@ proxy-groups:
   tolerance: 50
   proxies:
   - Cloudflare
-  - hysteria2_01
-  - hysteria_02
+  - hysteria_01
+  - hysteria2_02
   - tuic_11
   - tuic_21
   - tuic_31
