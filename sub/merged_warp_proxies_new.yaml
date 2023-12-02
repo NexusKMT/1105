@@ -67,15 +67,16 @@ proxies:
   up: 11 Mbps
   down: 55 Mbps
   skip-cert-verify: true
-- name: hysteria2_02
-  type: hysteria2
+- name: hysteria_02
+  type: hysteria
   server: 109.104.152.219
-  port: 13133
-  password: dongtaiwang.com
-  alpn:
-  - h3
+  port: 22335
+  auth-str: dongtaiwang.com
   sni: bing.com
   skip-cert-verify: true
+  alpn:
+  - h3
+  protocol: udp
   up: 100 Mbps
   down: 100 Mbps
 - name: tuic_11
@@ -346,7 +347,7 @@ proxy-groups:
   proxies:
   - Cloudflare
   - hysteria_01
-  - hysteria2_02
+  - hysteria_02
   - tuic_11
   - tuic_21
   - tuic_31
@@ -377,7 +378,7 @@ proxy-groups:
   proxies:
   - Cloudflare
   - hysteria_01
-  - hysteria2_02
+  - hysteria_02
   - tuic_11
   - tuic_21
   - tuic_31
