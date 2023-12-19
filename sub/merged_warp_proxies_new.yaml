@@ -229,19 +229,17 @@ proxies:
   udp-relay-mode: native
   skip-cert-verify: true
   congestion-controller: bbr
-- name: tuic_142
-  server: 104.234.70.41
-  port: 11223
-  type: tuic
-  uuid: c573056f-e44b-4244-8142-136753c3debe
+- name: hysteria2_142
+  type: hysteria2
+  server: 45.145.72.212
+  port: 23520
   password: dongtaiwang.com
-  sni: bing.com
   alpn:
   - h3
-  request-timeout: 8000
-  udp-relay-mode: native
+  sni: bing.com
+  up: 5 Mbps
+  down: 10 Mbps
   skip-cert-verify: true
-  congestion-controller: bbr
 - name: hysteria_151
   type: hysteria
   server: 62.204.54.81
@@ -366,7 +364,7 @@ proxy-groups:
   - hysteria_121
   - hysteria_131
   - tuic_141
-  - tuic_142
+  - hysteria2_142
   - hysteria_151
   - hysteria_0
   - hysteria_1
@@ -398,7 +396,7 @@ proxy-groups:
   - hysteria_121
   - hysteria_131
   - tuic_141
-  - tuic_142
+  - hysteria2_142
   - hysteria_151
   - hysteria_0
   - hysteria_1
